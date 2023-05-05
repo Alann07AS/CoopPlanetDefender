@@ -1,38 +1,27 @@
 import { GO, GOinfo, SpriteAnimation } from "./gameobject.js";
 import { KeyManager } from "./keymanager.js";
+import { PlanetGO } from "./GO/planet.js";
+import { CanonGO } from "./GO/canon.js";
+import { BG_GO } from "./GO/bg.js";
 
 export function GameTest() {
-    const GOinfoTest = new GOinfo()
-    GOinfoTest.name = "canon";
-    GOinfoTest.spritesAnimation.set("default", new SpriteAnimation("planet", "./static/assets/hightpurple.png", 710, 800, 8, 8));
-    GOinfoTest.height = 355;
-    GOinfoTest.width = 400;
-    GOinfoTest.speed = 4;
-    // GOinfoTest.renderHandler
-    GOinfoTest.updateHandler = (GO)=>{
-        KeyManager.whileKeyDown(KeyManager.LeftArrow, ()=>{
-            GO.move.left()
-        })
-        KeyManager.whileKeyDown(KeyManager.RightArrow, ()=>{
-            GO.move.right()
-        })
-        KeyManager.whileKeyDown(KeyManager.UpArrow, ()=>{
-            GO.move.up()
-        })
-        KeyManager.whileKeyDown(KeyManager.DownArrow, ()=>{
-            GO.move.down()
-        })
-    }
+    
 
-    const GE = new GameEngine(document.getElementById("screen"))
-    const GOtest = new GO(GOinfoTest)
-    GE.GOS.push(GOtest)
-
+    GE.GOS.push(BG_GO)
+    GE.GOS.push(PlanetGO)
+    GE.GOS.push(CanonGO)
+    
+    CanonGO.position.x = GE.canvas.width/2 - CanonGO.GOi.width/2
+    CanonGO.position.y = GE.canvas.height/2 - PlanetGO.GOi.height + 8
+    CanonGO.localRotatePoint.x = CanonGO.GOi.width/2
+    CanonGO.localRotatePoint.y = (CanonGO.GOi.height - 4 + PlanetGO.GOi.height/2)
+    
     GE.start()
 }
 
 class GameEngine {
     constructor (canvas) {
+        /**@type {HTMLCanvasElement} */
         this.canvas = canvas
         /**@type {CanvasRenderingContext2D} */
         this.ctx = canvas.getContext('2d');
@@ -59,5 +48,6 @@ class GameEngine {
         this.gameloop(0)
     }
 
-
 }
+
+export const GE = new GameEngine(document.getElementById("screen"))

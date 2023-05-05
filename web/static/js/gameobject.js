@@ -10,42 +10,79 @@ export class GO {
     position = {x:0, y:0}
     speed = 1
     curentAnim = "default"
+    isPlayAnimOnce = false
     frameCount = 0
     animTimerCount = 0
     
+    
+    angleRad = 0
+    angleDeg = 0
+    localRotatePoint = {x: 0, y: 0}
+
+    changeAngle(angleDegres) {
+        this.angleDeg = angleDegres
+        this.angleRad = angleDegres * (Math.PI/180)
+    }
+
     /** @param {CanvasRenderingContext2D} ctx */
     render = (ctx, deltaTime)=>{  //render images sprites of specific anim
         //image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight
         const anim = this.GOi.spritesAnimation.get(this.curentAnim)
-        ctx.drawImage(anim.spritesImage, this.frameCount*anim.width, 0, anim.width, anim.height, this.position.x, this.position.y, this.GOi.width, this.GOi.height)
+        
+        if (this.angleRad !== 0) {
+            ctx.save()
+            const cahceX = this.position.x + this.localRotatePoint.x, cacheY = this.position.y + this.localRotatePoint.y
+            ctx.translate(cahceX, cacheY);
+            
+            ctx.rotate(this.angleRad)
+            ctx.drawImage(anim.spritesImage, this.frameCount*anim.width, 0, anim.width, anim.height, -this.localRotatePoint.x, -this.localRotatePoint.y, this.GOi.width, this.GOi.height)
+
+            // ctx.beginPath();ctx.fillStyle = "green";ctx.arc(0, 0, 5, 0, 2*Math.PI);ctx.fill(); //draw rotation point
+            ctx.restore()
+        } else {
+            ctx.drawImage(anim.spritesImage, this.frameCount*anim.width, 0, anim.width, anim.height, this.position.x, this.position.y, this.GOi.width, this.GOi.height)
+        }
+        
         if (this.animTimerCount > (1000/anim.speedFrame)) {
             this.frameCount++;
             this.animTimerCount = 0;
         } else {
             this.animTimerCount += deltaTime;
         }
-        if (this.frameCount >= anim.frameNb) this.frameCount = 0;
+        if (this.frameCount >= anim.frameNb) {
+            this.frameCount = 0;
+            if (this.isPlayAnimOnce) {
+                this.curentAnim = "default";
+                this.isPlayAnimOnce = false;
+            }
+            
+        }
     }
 
     update = ()=>{
         this.GOi.updateHandler(this)
     }
 
+    playAnimationOnce (animationName) {
+        this.curentAnim = animationName;
+        this.isPlayAnimOnce = true;
+    }
+
     get move() {
         console.log(this.position);
         return {
-            left:  ()=> {
-                this.position.x -= this.GOi.speed
+            left:  (specifiqueSpeed)=> {
+                this.position.x -= (specifiqueSpeed||this.GOi.speed)
             },
-            right:  ()=> {
-                this.position.x += this.GOi.speed
+            right:  (specifiqueSpeed)=> {
+                this.position.x += (specifiqueSpeed||this.GOi.speed)
             },
-            up:  ()=> {
-                this.position.y -= this.GOi.speed
+            up:  (specifiqueSpeed)=> {
+                this.position.y -= (specifiqueSpeed||this.GOi.speed)
             },
-            down:  ()=> {
-                this.position.y += this.GOi.speed
-            }
+            down:  (specifiqueSpeed)=> {
+                this.position.y += (specifiqueSpeed||this.GOi.speed)
+            },
         }
     }
     
@@ -76,8 +113,11 @@ export class GOinfo {
     spritesAnimation = new Map()
     /**@type {Function} */
     renderHandler = ()=>{}
-    /**@type {function(GO: GO)} */
-    updateHandler = ()=>{}
+     /**
+    * @type {function(GO): void}
+    */
+    updateHandler = (go)=>{}
+
 }
 
 export class SpriteAnimation {

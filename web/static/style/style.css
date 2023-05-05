@@ -1,0 +1,12 @@
+html {
+    height: 100vh;
+    width: 100vw;
+    background-color: gray;
+}
+body {
+    margin: 0;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
