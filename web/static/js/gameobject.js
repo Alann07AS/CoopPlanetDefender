@@ -83,6 +83,10 @@ export class GO {
             down:  (specifiqueSpeed)=> {
                 this.position.y += (specifiqueSpeed||this.GOi.speed)
             },
+            direction:  (angleRadian, specifiqueSpeed)=> {
+                this.position.x += (( specifiqueSpeed || this.GOi.speed ) * Math.cos(( angleRadian || this.angleRad )))
+                this.position.y += (( specifiqueSpeed || this.GOi.speed ) * Math.sin(( angleRadian || this.angleRad )))
+            },
         }
     }
     
