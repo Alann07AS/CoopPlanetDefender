@@ -1,8 +1,11 @@
-import { GO, GOinfo, SpriteAnimation } from "./gameobject.js";
-import { KeyManager } from "./keymanager.js";
+import { GO } from "./gameobject.js";
 import { PlanetGO } from "./GO/planet.js";
 import { CanonGO } from "./GO/canon.js";
 import { BG_GO } from "./GO/bg.js";
+import { CreateRandomEnnemy } from "./GO/ennemys.js";
+import { GameEngine } from "./gameengine.js";
+
+export const GE = new GameEngine(document.getElementById("screen"))
 
 export function GameTest() {
     
@@ -15,39 +18,17 @@ export function GameTest() {
     CanonGO.position.y = GE.canvas.height/2 - PlanetGO.GOi.height + 8
     CanonGO.localRotatePoint.x = CanonGO.GOi.width/2
     CanonGO.localRotatePoint.y = (CanonGO.GOi.height - 4 + PlanetGO.GOi.height/2)
+
+    const EnnemysPool = []
+
+    GE.updateLoop = ()=>{
+        for (;EnnemysPool.length < 5;) {
+            const ennemy = CreateRandomEnnemy()
+            EnnemysPool.push(ennemy)
+            GE.GOS.push(ennemy)
+        }
+    }
     
     GE.start()
 }
 
-class GameEngine {
-    constructor (canvas) {
-        /**@type {HTMLCanvasElement} */
-        this.canvas = canvas
-        /**@type {CanvasRenderingContext2D} */
-        this.ctx = canvas.getContext('2d');
-    }
-
-    lastTime = 0
-    gameloop = (timeStamp)=>{
-        const deltaTime = timeStamp - this.lastTime // update deltatime
-        this.lastTime = timeStamp // update last time
-        this.ctx.clearRect(0, 0, this.canvas.height, this.canvas.width) //clear screen
-
-        this.GOS.forEach(go => { // update and render game object
-            go.update();
-            go.render(this.ctx, deltaTime);
-        })
-
-        requestAnimationFrame(this.gameloop) // next frame
-    }
-
-    /**@type {Array<GO>} */
-    GOS = []
-
-    start () {
-        this.gameloop(0)
-    }
-
-}
-
-export const GE = new GameEngine(document.getElementById("screen"))

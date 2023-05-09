@@ -7,6 +7,8 @@ export class GO {
     constructor (GOi) {
         this.GOi = GOi;
     }
+    
+    destroy() {this._destroy = true}
     position = {x:0, y:0}
     speed = 1
     curentAnim = "default"
@@ -69,7 +71,6 @@ export class GO {
     }
 
     get move() {
-        console.log(this.position);
         return {
             left:  (specifiqueSpeed)=> {
                 this.position.x -= (specifiqueSpeed||this.GOi.speed)
