@@ -1,4 +1,4 @@
-import { GE } from "../game.js";
+import { EnnemysPool, GE } from "../game.js";
 import { GO, GOinfo, SpriteAnimation } from "../gameobject.js"
 import { KeyManager } from "../keymanager.js";
 
@@ -9,9 +9,15 @@ const BulletCanonGameObjectInfo = new GOinfo()
     BulletCanonGameObjectInfo.height = 32;
     BulletCanonGameObjectInfo.width = 32;
     BulletCanonGameObjectInfo.speed = 4;
+    BulletCanonGameObjectInfo.colision.circle.radius = 16;
     /**@param {GO} g */
     BulletCanonGameObjectInfo.updateHandler = (g) => {
         g.move.direction()
+        EnnemysPool.forEach(ene => {
+            if (g.colision.CheckCircle(ene)) {
+                ene.destroy();
+            }
+        });
     }
 
     /** @param {GO} g*/

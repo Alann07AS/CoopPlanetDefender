@@ -8,8 +8,26 @@ export class GO {
         this.GOi = GOi;
     }
     
-    destroy() {this._destroy = true}
+    destroy() {this._destroy = true; console.log("destroy");}
     position = {x:0, y:0}
+    get colision () {
+        return {
+            CheckBox: (/**@type {GO}*/otherGameOB) => {
+            
+            },
+            CheckCircle: (/**@type {GO}*/otherGameOB) => {
+                return Math.hypot((this.position.x + this.GOi.colision.circle.localX) - otherGameOB.position.x, (this.position.y + this.GOi.colision.circle.localY) - otherGameOB.position.y) < this.GOi.colision.circle.radius + otherGameOB.GOi.colision.circle.radius;
+            },
+            Draw: {
+                circle: (/**@type {CanvasRenderingContext2D}*/ctx)=>{
+                    ctx.fillStyle = `rgba(0, 255, 0, 0.2)`
+                    // ctx.arc((this.position.x + this.GOi.colision.circle.localX), (this.position.y + this.GOi.colision.circle.localY), this.GOi.colision.circle.radius, 0, Math.PI*2)
+                    ctx.arc(100, 100, 100, 0, Math.PI)
+                    // ctx.fill()
+                }
+            }
+        }
+    }
     speed = 1
     curentAnim = "default"
     isPlayAnimOnce = false
@@ -59,6 +77,7 @@ export class GO {
             }
             
         }
+        this.GOi.renderHandler(this, ctx)
     }
 
     update = ()=>{
@@ -117,11 +136,16 @@ export class GOinfo {
     /**@type {Map<string, SpriteAnimation>} */
     spritesAnimation = new Map()
     /**@type {Function} */
-    renderHandler = ()=>{}
+    renderHandler = (go, ctx)=>{}
      /**
     * @type {function(GO): void}
     */
     updateHandler = (go)=>{}
+
+    colision = {
+        box: {height: this.height, width: this.width, localX:0, localY: 0},
+        circle: {radius: this.width/2, localX:-this.width/2, localY: this.height/2},
+    }
 
 }
 

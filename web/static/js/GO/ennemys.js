@@ -6,9 +6,15 @@ const EnnemyType = []
 export const GreenEnnemyGameObjectInfo = new GOinfo()
     GreenEnnemyGameObjectInfo.name = "greenenemy";
     GreenEnnemyGameObjectInfo.spritesAnimation.set("default", new SpriteAnimation("defaultgreen", "./static/assets/greenenemyssheet.png", 37, 32, 6, 6));
-    GreenEnnemyGameObjectInfo.height = 32;
+    GreenEnnemyGameObjectInfo.height = 37;
     GreenEnnemyGameObjectInfo.width  = 32;
     GreenEnnemyGameObjectInfo.speed  = 1.5;
+
+    GreenEnnemyGameObjectInfo.colision.circle.radius = 18;
+
+    GreenEnnemyGameObjectInfo.renderHandler = (go, ctx)=> {
+        go.colision.Draw.circle(ctx)
+    }
 
     /** @param {GO} g*/
     GreenEnnemyGameObjectInfo.updateHandler = function (g) {
@@ -26,6 +32,8 @@ export const YellowEnnemyGameObjectInfo = new GOinfo()
     YellowEnnemyGameObjectInfo.width  = 35;
     YellowEnnemyGameObjectInfo.speed  = 1.5;
 
+    YellowEnnemyGameObjectInfo.colision.circle.radius = 18;
+
     /** @param {GO} g*/
     YellowEnnemyGameObjectInfo.updateHandler = function (g) {
         g.move.direction();
@@ -34,7 +42,7 @@ export const YellowEnnemyGameObjectInfo = new GOinfo()
 EnnemyType.push(YellowEnnemyGameObjectInfo)
 
 const screen = document.getElementById("screen");
-const rayonSpawn = Math.sqrt(Math.pow(screen.height, 2) + Math.pow(screen.width, 2))/2;
+const rayonSpawn = Math.hypot(screen.height, screen.width)/2;
 
 export function CreateRandomEnnemy() {
     const ennemy = new GO(EnnemyType[Math.trunc(Math.random()*EnnemyType.length)])

@@ -7,6 +7,7 @@ import { GameEngine } from "./gameengine.js";
 
 export const GE = new GameEngine(document.getElementById("screen"))
 
+export const EnnemysPool = []
 export function GameTest() {
     
 
@@ -19,7 +20,6 @@ export function GameTest() {
     CanonGO.localRotatePoint.x = CanonGO.GOi.width/2
     CanonGO.localRotatePoint.y = (CanonGO.GOi.height - 4 + PlanetGO.GOi.height/2)
 
-    const EnnemysPool = []
 
     GE.updateLoop = ()=>{
         for (;EnnemysPool.length < 5;) {
