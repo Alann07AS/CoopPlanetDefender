@@ -15,6 +15,8 @@ const CanonGameObjectInfo = new GOinfo()
     CanonGameObjectInfo.updateHandler = function (g) {
         KeyManager.whileKeyDown(KeyManager.UpArrow, ()=>{
             g.changeAngle(g.angleDeg+1)
+            console.log(g.position.x, g.position.y);
+            console.log(g.localToGlobal(g.localRotatePoint.x, g.localRotatePoint.y));
         })
         KeyManager.whileKeyDown(KeyManager.DownArrow, ()=>{
             g.changeAngle(g.angleDeg-1)

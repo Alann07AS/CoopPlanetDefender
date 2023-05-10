@@ -16,15 +16,18 @@ export class GO {
             
             },
             CheckCircle: (/**@type {GO}*/otherGameOB) => {
-                return Math.hypot((this.position.x + this.GOi.colision.circle.localX) - otherGameOB.position.x, (this.position.y + this.GOi.colision.circle.localY) - otherGameOB.position.y) < this.GOi.colision.circle.radius + otherGameOB.GOi.colision.circle.radius;
+                const xy = this.localToGlobal(this.GOi.colision.circle.localX, this.GOi.colision.circle.localY)
+                const xyother = otherGameOB.localToGlobal(otherGameOB.GOi.colision.circle.localX, otherGameOB.GOi.colision.circle.localY)
+                return Math.hypot(xy[0] - xyother[0], xy[1] - xyother[1]) < this.GOi.colision.circle.radius + otherGameOB.GOi.colision.circle.radius;
             },
             Draw: {
                 circle: (/**@type {CanvasRenderingContext2D}*/ctx)=>{
                     ctx.fillStyle = `rgba(0, 255, 0, 0.2)`
-                    // ctx.arc((this.position.x + this.GOi.colision.circle.localX), (this.position.y + this.GOi.colision.circle.localY), this.GOi.colision.circle.radius, 0, Math.PI*2)
-                    ctx.arc(100, 100, 100, 0, Math.PI)
-                    // ctx.fill()
-                }
+                    ctx.beginPath()
+                    ctx.arc(...this.localToGlobal(this.GOi.colision.circle.localX, this.GOi.colision.circle.localY), this.GOi.colision.circle.radius, 0, Math.PI*2)
+                    ctx.fill()
+                },
+                box: (/**@type {CanvasRenderingContext2D}*/ctx)=>{}
             }
         }
     }
@@ -42,6 +45,7 @@ export class GO {
     changeAngle(angleDegres) {
         this.angleDeg = angleDegres
         this.angleRad = angleDegres * (Math.PI/180)
+
     }
 
     /** @param {CanvasRenderingContext2D} ctx */
@@ -51,13 +55,14 @@ export class GO {
         
         if (this.angleRad !== 0) {
             ctx.save()
-            const cahceX = this.position.x + this.localRotatePoint.x, cacheY = this.position.y + this.localRotatePoint.y
-            ctx.translate(cahceX, cacheY);
+            // const cahceX = this.position.x + this.localRotatePoint.x, cacheY = this.position.y + this.localRotatePoint.y
+            // const xyl = this.localToGlobal(this.localRotatePoint.x, this.localRotatePoint.y)
+            ctx.translate(this.position.x + this.localRotatePoint.x, this.position.y + this.localRotatePoint.y)//...xyl);
             
             ctx.rotate(this.angleRad)
-            ctx.drawImage(anim.spritesImage, this.frameCount*anim.width, 0, anim.width, anim.height, -this.localRotatePoint.x, -this.localRotatePoint.y, this.GOi.width, this.GOi.height)
+            ctx.drawImage(anim.spritesImage, this.frameCount*anim.width, 0, anim.width, anim.height, -this.localRotatePoint.x, -this.localRotatePoint.y, this.GOi.width, this.GOi.height) //-this.localRotatePoint.x, -this.localRotatePoint.y
 
-            // ctx.beginPath();ctx.fillStyle = "green";ctx.arc(0, 0, 5, 0, 2*Math.PI);ctx.fill(); //draw rotation point
+            ctx.beginPath();ctx.fillStyle = "blue";ctx.arc(0, 0, 5, 0, 2*Math.PI);ctx.fill(); //draw rotation point
             ctx.restore()
         } else {
             ctx.drawImage(anim.spritesImage, this.frameCount*anim.width, 0, anim.width, anim.height, this.position.x, this.position.y, this.GOi.width, this.GOi.height)
@@ -108,6 +113,13 @@ export class GO {
                 this.position.y += (( specifiqueSpeed || this.GOi.speed ) * Math.sin(( angleRadian || this.angleRad )))
             },
         }
+    }
+
+    localToGlobal(lx, ly) {
+        return [
+            (this.position.x + this.localRotatePoint.x) + lx * Math.cos(-this.angleRad) + ly * Math.sin(-this.angleRad),
+            (this.position.y + this.localRotatePoint.y) + -lx * Math.sin(-this.angleRad) + ly * Math.cos(-this.angleRad),
+        ]
     }
     
     /** @param {Function} updateHandler */

@@ -8,9 +8,11 @@ export const GreenEnnemyGameObjectInfo = new GOinfo()
     GreenEnnemyGameObjectInfo.spritesAnimation.set("default", new SpriteAnimation("defaultgreen", "./static/assets/greenenemyssheet.png", 37, 32, 6, 6));
     GreenEnnemyGameObjectInfo.height = 37;
     GreenEnnemyGameObjectInfo.width  = 32;
-    GreenEnnemyGameObjectInfo.speed  = 1.5;
+    GreenEnnemyGameObjectInfo.speed  = 0.8;
 
     GreenEnnemyGameObjectInfo.colision.circle.radius = 18;
+    GreenEnnemyGameObjectInfo.colision.circle.localX = 16;
+    GreenEnnemyGameObjectInfo.colision.circle.localY = 16;
 
     GreenEnnemyGameObjectInfo.renderHandler = (go, ctx)=> {
         go.colision.Draw.circle(ctx)
@@ -30,9 +32,15 @@ export const YellowEnnemyGameObjectInfo = new GOinfo()
     YellowEnnemyGameObjectInfo.spritesAnimation.set("default", new SpriteAnimation("defaultyellow", "./static/assets/yelowenemyssheet.png", 35, 32, 6, 6));
     YellowEnnemyGameObjectInfo.height = 32;
     YellowEnnemyGameObjectInfo.width  = 35;
-    YellowEnnemyGameObjectInfo.speed  = 1.5;
+    YellowEnnemyGameObjectInfo.speed  = 0.8;
 
     YellowEnnemyGameObjectInfo.colision.circle.radius = 18;
+    YellowEnnemyGameObjectInfo.colision.circle.localX = 16;
+    YellowEnnemyGameObjectInfo.colision.circle.localY = 16;
+
+    YellowEnnemyGameObjectInfo.renderHandler = (go, ctx)=> {
+        go.colision.Draw.circle(ctx)
+    }
 
     /** @param {GO} g*/
     YellowEnnemyGameObjectInfo.updateHandler = function (g) {
