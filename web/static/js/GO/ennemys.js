@@ -11,11 +11,14 @@ export const GreenEnnemyGameObjectInfo = new GOinfo()
     GreenEnnemyGameObjectInfo.speed  = 0.8;
 
     GreenEnnemyGameObjectInfo.colision.circle.radius = 18;
-    GreenEnnemyGameObjectInfo.colision.circle.localX = 16;
-    GreenEnnemyGameObjectInfo.colision.circle.localY = 16;
+    GreenEnnemyGameObjectInfo.colision.circle.localX = 
+    GreenEnnemyGameObjectInfo.colision.circle.localY = GreenEnnemyGameObjectInfo.height/2;
+
+    GreenEnnemyGameObjectInfo.localRotatePoint.x =
+    GreenEnnemyGameObjectInfo.localRotatePoint.y = GreenEnnemyGameObjectInfo.height/2;
 
     GreenEnnemyGameObjectInfo.renderHandler = (go, ctx)=> {
-        go.colision.Draw.circle(ctx)
+        // go.colision.Draw.circle(ctx)
     }
 
     /** @param {GO} g*/
@@ -38,8 +41,11 @@ export const YellowEnnemyGameObjectInfo = new GOinfo()
     YellowEnnemyGameObjectInfo.colision.circle.localX = 16;
     YellowEnnemyGameObjectInfo.colision.circle.localY = 16;
 
+    YellowEnnemyGameObjectInfo.localRotatePoint.x =
+    YellowEnnemyGameObjectInfo.localRotatePoint.y = YellowEnnemyGameObjectInfo.height/2;
+
     YellowEnnemyGameObjectInfo.renderHandler = (go, ctx)=> {
-        go.colision.Draw.circle(ctx)
+        // go.colision.Draw.circle(ctx)
     }
 
     /** @param {GO} g*/

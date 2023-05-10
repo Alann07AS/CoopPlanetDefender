@@ -10,13 +10,13 @@ const CanonGameObjectInfo = new GOinfo()
     CanonGameObjectInfo.height = 95;
     CanonGameObjectInfo.width  = 126.75;
     CanonGameObjectInfo.speed  = 4;
+    CanonGameObjectInfo.localRotatePoint.x = CanonGameObjectInfo.width/2
+
 
     /** @param {GO} g*/
     CanonGameObjectInfo.updateHandler = function (g) {
         KeyManager.whileKeyDown(KeyManager.UpArrow, ()=>{
             g.changeAngle(g.angleDeg+1)
-            console.log(g.position.x, g.position.y);
-            console.log(g.localToGlobal(g.localRotatePoint.x, g.localRotatePoint.y));
         })
         KeyManager.whileKeyDown(KeyManager.DownArrow, ()=>{
             g.changeAngle(g.angleDeg-1)

@@ -9,6 +9,11 @@ PlanetGameObjectInfo.width = 200;
 
 PlanetGameObjectInfo.spritesAnimation.set("default", new SpriteAnimation("planet", "./static/assets/lavaplanet.png", 288, 288, 1, 0))
 
+PlanetGameObjectInfo.localRotatePoint.x = PlanetGameObjectInfo.localRotatePoint.y = PlanetGameObjectInfo.height/2
+
+PlanetGameObjectInfo.updateHandler = (/**@type {GO}*/go) => {
+    go.changeAngle(go.angleDeg+0.03)
+}
 
 export const PlanetGO = new GO(PlanetGameObjectInfo)
 

@@ -40,7 +40,6 @@ export class GO {
     
     angleRad = 0
     angleDeg = 0
-    localRotatePoint = {x: 0, y: 0}
 
     changeAngle(angleDegres) {
         this.angleDeg = angleDegres
@@ -55,14 +54,15 @@ export class GO {
         
         if (this.angleRad !== 0) {
             ctx.save()
-            // const cahceX = this.position.x + this.localRotatePoint.x, cacheY = this.position.y + this.localRotatePoint.y
-            // const xyl = this.localToGlobal(this.localRotatePoint.x, this.localRotatePoint.y)
-            ctx.translate(this.position.x + this.localRotatePoint.x, this.position.y + this.localRotatePoint.y)//...xyl);
+            // const cahceX = this.position.x + this.GOi.localRotatePoint.x, cacheY = this.position.y + this.GOi.localRotatePoint.y
+            // const xyl = this.localToGlobal(this.GOi.localRotatePoint.x, this.GOi.localRotatePoint.y)
+            ctx.translate(this.position.x + this.GOi.localRotatePoint.x, this.position.y + this.GOi.localRotatePoint.y)//...xyl);
             
             ctx.rotate(this.angleRad)
-            ctx.drawImage(anim.spritesImage, this.frameCount*anim.width, 0, anim.width, anim.height, -this.localRotatePoint.x, -this.localRotatePoint.y, this.GOi.width, this.GOi.height) //-this.localRotatePoint.x, -this.localRotatePoint.y
+            ctx.drawImage(anim.spritesImage, this.frameCount*anim.width, 0, anim.width, anim.height, -this.GOi.localRotatePoint.x, -this.GOi.localRotatePoint.y, this.GOi.width, this.GOi.height) //-this.GOi.localRotatePoint.x, -this.GOi.localRotatePoint.y
 
-            ctx.beginPath();ctx.fillStyle = "blue";ctx.arc(0, 0, 5, 0, 2*Math.PI);ctx.fill(); //draw rotation point
+            // ctx.beginPath();ctx.fillStyle = "blue";ctx.arc(0, 0, 5, 0, 2*Math.PI);ctx.fill(); //draw rotation point
+            
             ctx.restore()
         } else {
             ctx.drawImage(anim.spritesImage, this.frameCount*anim.width, 0, anim.width, anim.height, this.position.x, this.position.y, this.GOi.width, this.GOi.height)
@@ -116,9 +116,11 @@ export class GO {
     }
 
     localToGlobal(lx, ly) {
+        lx -= this.GOi.localRotatePoint.x
+        ly -= this.GOi.localRotatePoint.y
         return [
-            (this.position.x + this.localRotatePoint.x) + lx * Math.cos(-this.angleRad) + ly * Math.sin(-this.angleRad),
-            (this.position.y + this.localRotatePoint.y) + -lx * Math.sin(-this.angleRad) + ly * Math.cos(-this.angleRad),
+            (this.position.x + this.GOi.localRotatePoint.x) + lx * Math.cos(-this.angleRad) + ly * Math.sin(-this.angleRad),
+            (this.position.y + this.GOi.localRotatePoint.y) + -lx * Math.sin(-this.angleRad) + ly * Math.cos(-this.angleRad),
         ]
     }
     
@@ -153,6 +155,8 @@ export class GOinfo {
     * @type {function(GO): void}
     */
     updateHandler = (go)=>{}
+
+    localRotatePoint = {x: 0, y: 0}
 
     colision = {
         box: {height: this.height, width: this.width, localX:0, localY: 0},
