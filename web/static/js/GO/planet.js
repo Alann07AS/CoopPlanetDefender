@@ -1,3 +1,4 @@
+import { EnnemysPool } from "../game.js";
 import { GO, GOinfo, SpriteAnimation } from "../gameobject.js"
 
 
@@ -11,8 +12,23 @@ PlanetGameObjectInfo.spritesAnimation.set("default", new SpriteAnimation("planet
 
 PlanetGameObjectInfo.localRotatePoint.x = PlanetGameObjectInfo.localRotatePoint.y = PlanetGameObjectInfo.height/2
 
+PlanetGameObjectInfo.colision.circle.radius = 
+PlanetGameObjectInfo.colision.circle.localX = 
+PlanetGameObjectInfo.colision.circle.localY = PlanetGameObjectInfo.height/2;
+
+
 PlanetGameObjectInfo.updateHandler = (/**@type {GO}*/go) => {
     go.changeAngle(go.angleDeg+0.03)
+    EnnemysPool.forEach(/**@param {GO} ene */(ene, index) => {
+        if (go.colision.CheckCircle(ene)) {
+            EnnemysPool.splice(index, 1);
+            ene.destroy()
+        }
+    });
+}
+
+PlanetGameObjectInfo.renderHandlerAfter = (/**@type {GO}*/go, ctx) => {
+    // go.colision.Draw.circle(ctx)
 }
 
 export const PlanetGO = new GO(PlanetGameObjectInfo)

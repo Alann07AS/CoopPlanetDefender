@@ -49,6 +49,7 @@ export class GO {
 
     /** @param {CanvasRenderingContext2D} ctx */
     render = (ctx, deltaTime)=>{  //render images sprites of specific anim
+        this.GOi.renderHandlerBefore(this, ctx)
         //image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight
         const anim = this.GOi.spritesAnimation.get(this.curentAnim)
         
@@ -82,7 +83,7 @@ export class GO {
             }
             
         }
-        this.GOi.renderHandler(this, ctx)
+        this.GOi.renderHandlerAfter(this, ctx)
     }
 
     update = ()=>{
@@ -130,8 +131,8 @@ export class GO {
     }
 
     /** @param {Function} updateHandler */
-    setLocalRender(renderHandler) {
-        this.local_render = renderHandler
+    setLocalRender(renderHandlerAfter) {
+        this.local_render = renderHandlerAfter
     }
 }
 
@@ -150,8 +151,10 @@ export class GOinfo {
     /**@type {Map<string, SpriteAnimation>} */
     spritesAnimation = new Map()
     /**@type {Function} */
-    renderHandler = (go, ctx)=>{}
-     /**
+    renderHandlerAfter = (go, ctx)=>{}
+    /**@type {Function} */
+    renderHandlerBefore = (go, ctx)=>{}
+    /**
     * @type {function(GO): void}
     */
     updateHandler = (go)=>{}

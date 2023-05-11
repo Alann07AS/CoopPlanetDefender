@@ -17,7 +17,7 @@ export const GreenEnnemyGameObjectInfo = new GOinfo()
     GreenEnnemyGameObjectInfo.localRotatePoint.x =
     GreenEnnemyGameObjectInfo.localRotatePoint.y = GreenEnnemyGameObjectInfo.height/2;
 
-    GreenEnnemyGameObjectInfo.renderHandler = (go, ctx)=> {
+    GreenEnnemyGameObjectInfo.renderHandlerAfter = (go, ctx)=> {
         // go.colision.Draw.circle(ctx)
     }
 
@@ -33,6 +33,7 @@ EnnemyType.push(GreenEnnemyGameObjectInfo)
 export const YellowEnnemyGameObjectInfo = new GOinfo()
     YellowEnnemyGameObjectInfo.name = "yellow";
     YellowEnnemyGameObjectInfo.spritesAnimation.set("default", new SpriteAnimation("defaultyellow", "./static/assets/yelowenemyssheet.png", 35, 32, 6, 6));
+    YellowEnnemyGameObjectInfo.spritesAnimation.set("death1", new SpriteAnimation("death1", "./static/assets/yelowenemysdeath1.png", 35, 32, 6, 6));
     YellowEnnemyGameObjectInfo.height = 32;
     YellowEnnemyGameObjectInfo.width  = 35;
     YellowEnnemyGameObjectInfo.speed  = 0.8;
@@ -44,7 +45,7 @@ export const YellowEnnemyGameObjectInfo = new GOinfo()
     YellowEnnemyGameObjectInfo.localRotatePoint.x =
     YellowEnnemyGameObjectInfo.localRotatePoint.y = YellowEnnemyGameObjectInfo.height/2;
 
-    YellowEnnemyGameObjectInfo.renderHandler = (go, ctx)=> {
+    YellowEnnemyGameObjectInfo.renderHandlerAfter = (go, ctx)=> {
         // go.colision.Draw.circle(ctx)
     }
 

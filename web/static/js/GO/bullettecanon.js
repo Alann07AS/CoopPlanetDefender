@@ -18,16 +18,17 @@ const BulletCanonGameObjectInfo = new GOinfo()
     /**@param {GO} g */
     BulletCanonGameObjectInfo.updateHandler = (g) => {
         g.move.direction()
-        EnnemysPool.forEach((ene, index) => {
+        
+        EnnemysPool.forEach(/**@param {GO} ene */(ene, index) => {
             if (g.colision.CheckCircle(ene)) {
-                ene.destroy();
                 g.destroy();
                 EnnemysPool.splice(index, 1);
+                ene.destroy()
             }
         });
     }
 
-    BulletCanonGameObjectInfo.renderHandler = (go, ctx) => {
+    BulletCanonGameObjectInfo.renderHandlerAfter = (go, ctx) => {
         // go.colision.Draw.circle(ctx)
     }
 
