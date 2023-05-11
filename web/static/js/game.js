@@ -7,16 +7,16 @@ import { GameEngine } from "./gameengine.js";
 import { KeyManager } from "./keymanager.js";
 import { lifebarGO } from "./GO/lifebar.js";
 
-export const GE = new GameEngine(document.getElementById("screen"))
+export const GE = new GameEngine(document.getElementById("screen"), 3)
 
 export const EnnemysPool = []
 export function GameTest() {
     
 
-    GE.GOS.push(BG_GO)
-    GE.GOS.push(PlanetGO)
-    GE.GOS.push(CanonGO)
-    GE.GOS.push(lifebarGO)
+    GE.AddGameObject(BG_GO, 1)
+    GE.AddGameObject(PlanetGO, 2)
+    GE.AddGameObject(CanonGO, 2)
+    GE.AddGameObject(lifebarGO, 3)
     
     CanonGO.position.x = GE.canvas.width/2 - CanonGO.GOi.width/2
     CanonGO.position.y = GE.canvas.height/2 - PlanetGO.GOi.height + 8
@@ -27,11 +27,11 @@ export function GameTest() {
         for (;EnnemysPool.length < 5;) {
             const ennemy = CreateRandomEnnemy()
             EnnemysPool.push(ennemy)
-            GE.GOS.push(ennemy)
+            GE.AddGameObject(ennemy, 2)
         }
-        KeyManager.onKeyDown("p", ()=>{console.log(GE.GOS);})
+        // KeyManager.onKeyDown("p", ()=>{console.log(GE.GOS);})
     }
-    
+    console.log(GE.GO_Layer);
     GE.start()
 }
 

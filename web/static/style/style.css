@@ -10,3 +10,8 @@ body {
     justify-content: center;
     align-items: center;
 }
+
+@font-face {
+    font-family: 'StoneFont';
+    src: url('../fonts/FairyStone-OVxep.otf');
+  }

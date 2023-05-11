@@ -23,7 +23,8 @@ const BulletCanonGameObjectInfo = new GOinfo()
             if (g.colision.CheckCircle(ene)) {
                 g.destroy();
                 EnnemysPool.splice(index, 1);
-                ene.destroy()
+                ene.playAnimationOnce("death1")
+                ene.IsAlive = false;
             }
         });
     }
@@ -46,6 +47,6 @@ export function CreateBulletCannonFromPlayer(player) {
     newBulletGO.position.x = (player.position.x + player.GOi.localRotatePoint.x - 15) + (player.GOi.localRotatePoint.y - 24) * Math.cos(player.angleRad-Math.PI/2)
     newBulletGO.position.y = (player.position.y + player.GOi.localRotatePoint.y - 15) + (player.GOi.localRotatePoint.y - 24) * Math.sin(player.angleRad-Math.PI/2)
     newBulletGO.angleRad = player.angleRad-Math.PI/2
-    GE.GOS.push(newBulletGO)
+    GE.AddGameObject(newBulletGO, 2)
     setTimeout(()=>{newBulletGO.destroy()}, 4000)
 }

@@ -20,19 +20,42 @@ const rgb = {
     b: 12
 }
 
+
+lifebarGameObjectInfo.updateHandler = (g)=> {
+    if (g.lifeValue != g.lastLifeValue) {
+        g.lastLifeValue = g.lifeValue
+        const mult = 1 - g.lifeValue
+        console.log("b",g.rgb);
+        g.rgb.r = rgb.r + (255 - rgb.r) * mult
+        g.rgb.g = rgb.g + (255 - rgb.g) * mult
+        g.rgb.b = rgb.b + (255 - rgb.b) * mult
+        console.log(255 - rgb.r
+            ,255 - rgb.g
+            ,255 - rgb.b);
+    }
+}
+
 /**
  * @param {GO} go 
  * @param {CanvasRenderingContext2D} ctx 
  */
 lifebarGameObjectInfo.renderHandlerBefore = (go, ctx)=>{
     ctx.beginPath()
-    ctx.fillStyle = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`
+    ctx.fillStyle = `rgb(${go.rgb.r}, ${go.rgb.g}, ${go.rgb.b})`
     ctx.arc(center, center, lifebarGameObjectInfo.height/2-5, 0, Math.PI*2)
     ctx.fill()
+    ctx.font = "30px StoneFont";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillStyle = "black"
+    ctx.fillText(Math.trunc(go.lifeValue*100), center, center); 
 }
 
 export const lifebarGO = new GO(lifebarGameObjectInfo)
 
-lifebarGO.lifeValue = 1;
+lifebarGO.lifeValue =
+lifebarGO.lastLifeValue = 1;
+
+lifebarGO.rgb = structuredClone(rgb) 
 
 lifebarGO.position = position;

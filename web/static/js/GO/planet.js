@@ -1,5 +1,6 @@
 import { EnnemysPool } from "../game.js";
 import { GO, GOinfo, SpriteAnimation } from "../gameobject.js"
+import { lifebarGO } from "./lifebar.js";
 
 
 
@@ -22,7 +23,8 @@ PlanetGameObjectInfo.updateHandler = (/**@type {GO}*/go) => {
     EnnemysPool.forEach(/**@param {GO} ene */(ene, index) => {
         if (go.colision.CheckCircle(ene)) {
             EnnemysPool.splice(index, 1);
-            ene.destroy()
+            lifebarGO.lifeValue -= ene.Domage
+            setTimeout(()=>ene.destroy(), 500)
         }
     });
 }
