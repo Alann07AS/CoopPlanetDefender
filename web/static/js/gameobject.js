@@ -52,7 +52,13 @@ export class GO {
         this.GOi.renderHandlerBefore(this, ctx)
         //image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight
         const anim = this.GOi.spritesAnimation.get(this.curentAnim)
-        
+        if (this.frameCount == 0 && anim.soundBuffer[0][0].src && !this.animLoopStart) {for(let i=0;i<3;i++) {
+            if (!anim.soundBuffer[i][1]){
+                this.animLoopStart = true;
+                anim.soundBuffer[i][0].play();
+                anim.soundBuffer[i][1]=true; break;
+            }
+        }}
         if (this.angleRad !== 0) {
             ctx.save()
             // const cahceX = this.position.x + this.GOi.localRotatePoint.x, cacheY = this.position.y + this.GOi.localRotatePoint.y
@@ -72,6 +78,7 @@ export class GO {
         if (this.animTimerCount > (1000/anim.speedFrame)) {
             this.frameCount++;
             this.animTimerCount = 0;
+            this.animLoopStart = false;
         } else {
             this.animTimerCount += deltaTime;
         }
@@ -81,7 +88,6 @@ export class GO {
                 this.curentAnim = "default";
                 this.isPlayAnimOnce = false;
             }
-            
         }
         this.GOi.renderHandlerAfter(this, ctx)
     }
@@ -91,6 +97,9 @@ export class GO {
     }
 
     playAnimationOnce (animationName) {
+        if (this.isPlayAnimOnce) return
+        this.animTimerCount =
+        this.frameCount = 0;
         this.curentAnim = animationName;
         this.isPlayAnimOnce = true;
     }
@@ -181,6 +190,10 @@ export class SpriteAnimation {
         }
         this.frameNb = frameNb;
         this.speedFrame = speedFrame;
-        this.sound = new Audio(sound) // a voir plus tard    
+        this.soundBuffer = [[new Audio(sound), false], [new Audio(sound), false], [new Audio(sound), false]]; // Créez un nouvel objet Audio
+        this.soundBuffer.forEach((s, i)=>{
+            s[0].addEventListener('play', ()=>{; s[1] = true})
+            s[0].addEventListener('pause', ()=>{; s[1] = false})    
+        })
     }
 }

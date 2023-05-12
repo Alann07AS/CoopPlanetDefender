@@ -29,7 +29,11 @@ export function GameTest() {
             EnnemysPool.push(ennemy)
             GE.AddGameObject(ennemy, 2)
         }
-        // KeyManager.onKeyDown("p", ()=>{console.log(GE.GOS);})
+        KeyManager.onKeyDown("k", ()=>{Array(...EnnemysPool).forEach((e, index)=>{
+            EnnemysPool.splice(index, 1);
+            e.playAnimationOnce("death1")
+            e.IsAlive = false;
+        })})
     }
     console.log(GE.GO_Layer);
     GE.start()

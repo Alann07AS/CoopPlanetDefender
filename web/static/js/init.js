@@ -1,3 +1,5 @@
 import { GameTest } from "./game.js";
 
-GameTest();
+window.onload = ()=>{
+    GameTest();
+}

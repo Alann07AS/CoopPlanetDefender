@@ -25,13 +25,9 @@ lifebarGameObjectInfo.updateHandler = (g)=> {
     if (g.lifeValue != g.lastLifeValue) {
         g.lastLifeValue = g.lifeValue
         const mult = 1 - g.lifeValue
-        console.log("b",g.rgb);
         g.rgb.r = rgb.r + (255 - rgb.r) * mult
         g.rgb.g = rgb.g + (255 - rgb.g) * mult
         g.rgb.b = rgb.b + (255 - rgb.b) * mult
-        console.log(255 - rgb.r
-            ,255 - rgb.g
-            ,255 - rgb.b);
     }
 }
 
