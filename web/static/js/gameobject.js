@@ -1,3 +1,4 @@
+import { GameEngine } from "./gameengine.js";
 
 export class GO {
     /**
@@ -7,8 +8,11 @@ export class GO {
     constructor (GOi) {
         this.GOi = GOi;
     }
+
+    /**@type {GameEngine} */
+    ge = null
     
-    destroy() {this._destroy = true; console.log("destroy");}
+    destroy() {this._destroy = true}
     position = {x:0, y:0}
     get colision () {
         return {
@@ -49,7 +53,10 @@ export class GO {
 
     /** @param {CanvasRenderingContext2D} ctx */
     render = (ctx, deltaTime)=>{  //render images sprites of specific anim
+        ctx.save()
+        ctx.scale(this.ge.setings.resolution.scale, this.ge.setings.resolution.scale)
         this.GOi.renderHandlerBefore(this, ctx)
+        ctx.restore()
         //image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight
         const anim = this.GOi.spritesAnimation.get(this.curentAnim)
         if (this.frameCount == 0 && anim.soundBuffer[0][0].src && !this.animLoopStart) {for(let i=0;i<3;i++) {
@@ -59,22 +66,23 @@ export class GO {
                 anim.soundBuffer[i][1]=true; break;
             }
         }}
+        ctx.save()
+        // console.log(this.ge.setings.resolution.scale);
+        ctx.scale(this.ge.setings.resolution.scale, this.ge.setings.resolution.scale)
         if (this.angleRad !== 0) {
-            ctx.save()
             // const cahceX = this.position.x + this.GOi.localRotatePoint.x, cacheY = this.position.y + this.GOi.localRotatePoint.y
             // const xyl = this.localToGlobal(this.GOi.localRotatePoint.x, this.GOi.localRotatePoint.y)
             ctx.translate(this.position.x + this.GOi.localRotatePoint.x, this.position.y + this.GOi.localRotatePoint.y)//...xyl);
             
             ctx.rotate(this.angleRad)
-            ctx.drawImage(anim.spritesImage, this.frameCount*anim.width, 0, anim.width, anim.height, -this.GOi.localRotatePoint.x, -this.GOi.localRotatePoint.y, this.GOi.width, this.GOi.height) //-this.GOi.localRotatePoint.x, -this.GOi.localRotatePoint.y
+            ctx.drawImage(anim.spritesImage, this.frameCount*anim.width, 0, anim.width, anim.height, -this.GOi.localRotatePoint.x, -this.GOi.localRotatePoint.y, this.GOi.width , this.GOi.height) //-this.GOi.localRotatePoint.x, -this.GOi.localRotatePoint.y
 
             // ctx.beginPath();ctx.fillStyle = "blue";ctx.arc(0, 0, 5, 0, 2*Math.PI);ctx.fill(); //draw rotation point
             
-            ctx.restore()
         } else {
             ctx.drawImage(anim.spritesImage, this.frameCount*anim.width, 0, anim.width, anim.height, this.position.x, this.position.y, this.GOi.width, this.GOi.height)
         }
-        
+        ctx.restore()
         if (this.animTimerCount > (1000/anim.speedFrame)) {
             this.frameCount++;
             this.animTimerCount = 0;
@@ -89,7 +97,10 @@ export class GO {
                 this.isPlayAnimOnce = false;
             }
         }
+        ctx.save()
+        ctx.scale(this.ge.setings.resolution.scale, this.ge.setings.resolution.scale)
         this.GOi.renderHandlerAfter(this, ctx)
+        ctx.restore()
     }
 
     update = ()=>{
@@ -174,7 +185,6 @@ export class GOinfo {
         box: {height: this.height, width: this.width, localX:0, localY: 0},
         circle: {radius: this.width/2, localX:-this.width/2, localY: this.height/2},
     }
-
 }
 
 export class SpriteAnimation {

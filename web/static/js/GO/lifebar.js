@@ -44,7 +44,7 @@ lifebarGameObjectInfo.renderHandlerBefore = (go, ctx)=>{
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillStyle = "black"
-    ctx.fillText(Math.trunc(go.lifeValue*100), center, center); 
+    ctx.fillText(Math.trunc(go.lifeValue*100), center, center);
 }
 
 export const lifebarGO = new GO(lifebarGameObjectInfo)

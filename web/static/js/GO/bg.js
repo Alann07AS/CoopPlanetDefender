@@ -1,13 +1,10 @@
 
+import { GE } from "../game.js";
 import { GO, GOinfo, SpriteAnimation } from "../gameobject.js"
 
 
 
 const BG_GameObjectInfo = new GOinfo
-
-const infoScreen = document.getElementById("screen").getBoundingClientRect()
-BG_GameObjectInfo.height = infoScreen.height;
-BG_GameObjectInfo.width = infoScreen.width;
 
 BG_GameObjectInfo.spritesAnimation.set("default", new SpriteAnimation("planet", "./static/assets/bg.png", 360, 640, 1, 0))
 

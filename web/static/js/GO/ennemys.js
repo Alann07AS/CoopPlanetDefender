@@ -70,9 +70,9 @@ const enneyUpdateHandler = (g)=> {
 }
 
 const screen = document.getElementById("screen");
-const rayonSpawn = Math.hypot(screen.height, screen.width)/2;
 
 export function CreateRandomEnnemy() {
+    const rayonSpawn = Math.hypot(screen.height, screen.width)/2;
     const ennemy = new GO(EnnemyType[Math.trunc(Math.random()*EnnemyType.length)])
     const randomAngle = Math.random() * Math.PI*2;
     ennemy.angleRad = randomAngle + Math.PI

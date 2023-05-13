@@ -1,5 +1,6 @@
 import { EnnemysPool } from "../game.js";
 import { GO, GOinfo, SpriteAnimation } from "../gameobject.js"
+import { CanonGO } from "./canon.js";
 import { lifebarGO } from "./lifebar.js";
 
 
@@ -26,7 +27,12 @@ hitSoundBuffer.forEach((s, i)=>{
 })
 
 PlanetGameObjectInfo.updateHandler = (/**@type {GO}*/go) => {
-    go.changeAngle(go.angleDeg+0.03)
+    PlanetGO.position.y = (PlanetGO.ge.setings.resolution.heightRef /2) - (PlanetGO.GOi.height/2)
+    PlanetGO.position.x = (PlanetGO.ge.setings.resolution.widthRef /2) - (PlanetGO.GOi.width/2)
+    
+    CanonGO.position.y = go.ge.setings.resolution.heightRef/2 - PlanetGO.GOi.height + 8
+    CanonGO.position.x = go.ge.setings.resolution.widthRef/2 - CanonGO.GOi.width/2
+    go.changeAngle(go.angleDeg+0.03)    
     EnnemysPool.forEach(/**@param {GO} ene */(ene, index) => {
         if (go.colision.CheckCircle(ene)) {
             EnnemysPool.splice(index, 1);
@@ -43,6 +49,3 @@ PlanetGameObjectInfo.renderHandlerAfter = (/**@type {GO}*/go, ctx) => {
 
 export const PlanetGO = new GO(PlanetGameObjectInfo)
 
-const infoScreen = document.getElementById("screen").getBoundingClientRect()
-PlanetGO.position.y = (infoScreen.height/2)-(PlanetGO.GOi.height /2) 
-PlanetGO.position.x = (infoScreen.width/2)-(PlanetGO.GOi.width /2)
