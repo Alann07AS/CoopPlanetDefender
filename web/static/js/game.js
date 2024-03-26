@@ -9,7 +9,7 @@ import { lifebarGO } from "./GO/lifebar.js";
 
 export const GE = new GameEngine(document.getElementById("screen"), 3)
 
-let Ireso = 2
+let Ireso = 1
 const resolutions = [
 {w: 720, p: 480},
 {w: 1280, p: 720},
